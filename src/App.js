@@ -1,23 +1,29 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import {GoogleMap, LoadScript, DrawingManager} from "@react-google-maps/api";
+
+const containerStyle = {
+  width: '1200px',
+  height: '400px'
+};
+
+const center = {
+  lat: -3.745,
+  lng: -38.523
+};
 
 function App() {
+  const onPolygonEvent = polygon => {
+    console.log(polygon)
+  }
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <LoadScript libraries={['drawing']} googleMapsApiKey={process.env.REACT_APP_MAPS_API_KEY}>
+          <GoogleMap id="drawing-manager-example" mapContainerStyle={containerStyle} center={center} zoom={10} >
+            <DrawingManager  onPolygonComplete={onPolygonEvent} />
+          </GoogleMap>
+        </LoadScript>
       </header>
     </div>
   );
